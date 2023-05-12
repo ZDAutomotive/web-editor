@@ -446,6 +446,7 @@ window.vm = new Vue({
       $('.modal').modal('show');
     },
     showAjaxError: function (ret) {
+      console.log(ret)
       if (ret.responseJSON && ret.responseJSON.description) {
         this.showError(ret.responseJSON.description);
       } else {
@@ -944,9 +945,10 @@ window.vm = new Vue({
     },
     generatePreloadCode() {
       const m = this.deviceId.match(/^([^:]+):(.*)/)
-      const deviceUrl = m[2]
+      const deviceUrl = m && m[2] ? m[2] : ''
+      const type = m && m[1] ? m[1] : this.deviceId
       let codeLines;
-      if (m[1] == "ios") {
+      if (type == "ios") {
         codeLines = [
           "print('Set environment for iOS device\\nInit c = d = wda.Client()')",
           "import os",
@@ -954,7 +956,7 @@ window.vm = new Vue({
           `os.environ['DEVICE_URL'] = "${deviceUrl}"`,
           `c = d = wda.Client()`,
         ]
-      } else if (m[1] == "android") {
+      } else if (type == "android") {
         codeLines = [
           "print('Set environment and prepare d = u2.connect()')",
           "import os",
