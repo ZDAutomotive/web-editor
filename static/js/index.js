@@ -252,6 +252,7 @@ window.vm = new Vue({
           }
         })
         .fail((ret) => {
+          console.loog('ret:', ret)
           this.showError("<p>Local server not started, start with</p><pre>$ python -m weditor</pre>");
         })
         .always(() => {
