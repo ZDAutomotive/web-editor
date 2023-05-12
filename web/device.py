@@ -49,7 +49,7 @@ class _AndroidDevice(DeviceMeta):
             "packageName": current['package'],
             "windowSize": self._d.window_size(),
         }
-
+    
     def device_info(self):
         return self._d.device_info
         
@@ -145,6 +145,7 @@ def connect_device(platform, device_url):
         device_id = platform + ":" + device_url
     else:
         device_id = platform
+    # device_id = platform + ":" + device_url
     if platform == 'android':
         d = _AndroidDevice(device_url)
     elif platform == 'ios':
@@ -159,6 +160,7 @@ def connect_device(platform, device_url):
 def get_device(id):
     d = cached_devices.get(id)
     if d is None:
+        # platform, uri = id.split(":", maxsplit=1)
         if id.find(":")!=-1:
             platform, uri = id.split(":", maxsplit=1)
         else:

@@ -893,7 +893,7 @@ window.vm = new Vue({
         console.log('screen websocket connected')
       };
       ws.onmessage = function (message) {
-        console.log("New message:", message);
+        console.log("New message");
         var blob = new Blob([message.data], {
           type: 'image/jpeg'
         })
@@ -938,14 +938,14 @@ window.vm = new Vue({
 
       ws.onclose = (ev) => {
         this.liveScreen = false;
-        console.log("screen websocket closed,", ev)
+        console.log("screen websocket closed")
       }
     },
     generatePreloadCode() {
-      const m = this.deviceId.split(':')
-      const deviceUrl = m[2] ? m[2] : ''
+      const m = this.deviceId.match(/^([^:]+):(.*)/)
+      const deviceUrl = m[2]
       let codeLines;
-      if (m[0] == "ios") {
+      if (m[1] == "ios") {
         codeLines = [
           "print('Set environment for iOS device\\nInit c = d = wda.Client()')",
           "import os",
@@ -953,7 +953,7 @@ window.vm = new Vue({
           `os.environ['DEVICE_URL'] = "${deviceUrl}"`,
           `c = d = wda.Client()`,
         ]
-      } else if (m[0] == "android") {
+      } else if (m[1] == "android") {
         codeLines = [
           "print('Set environment and prepare d = u2.connect()')",
           "import os",

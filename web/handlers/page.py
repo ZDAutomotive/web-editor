@@ -6,15 +6,13 @@ import io
 import json
 import os
 import traceback
-import time
-import subprocess
+
 import tornado
 from logzero import logger
 from PIL import Image
 from tornado.escape import json_decode
-from urllib import parse
 
-from ..device import connect_device, get_device, get_devices
+from ..device import connect_device, get_device
 from ..version import __version__
 
 
@@ -56,7 +54,7 @@ class MainHandler(BaseHandler):
 class DeviceConnectHandler(BaseHandler):
     def post(self):
         platform = self.get_argument("platform").lower()
-        device_url = self.get_argument("deviceUrl", "")
+        device_url = self.get_argument("deviceUrl")
 
         try:
             id = connect_device(platform, device_url)
@@ -222,7 +220,6 @@ class DeviceScreenshotHandler(BaseHandler):
         except RuntimeError as e:
             self.set_status(500)  # Gone
             self.write({"description": traceback.format_exc()})
-
 class WindowSizeHandler(BaseHandler):
     def get(self, serial):
         # logger.info("Serial: %s", serial)
