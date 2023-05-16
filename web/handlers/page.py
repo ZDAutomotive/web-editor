@@ -14,11 +14,6 @@ from PIL import Image
 from tornado.escape import json_decode
 from urllib import parse
 
-import tornado
-from logzero import logger
-from PIL import Image
-from tornado.escape import json_decode
-
 from ..device import connect_device, get_device
 from ..version import __version__
 
