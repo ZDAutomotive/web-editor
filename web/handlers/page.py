@@ -330,7 +330,7 @@ class AssertSelectHandler(BaseHandler):
             #     device = d.device(description=flag, instance = index)
             device = d.weight(origin, flag, index)
             if device.exists:
-                result = target == device.info['selected']
+                result = str(target).lower() == str(device.info['selected']).lower()
                 logger.info("element %s assert selected: %s", d.serial() , str(result))
                 self.write({
                     "success": True,
@@ -414,7 +414,7 @@ class AssertEnabledHandler(BaseHandler):
             #     device = d.device(description=flag, instance = index)
             device = d.weight(origin, flag, index)
             if device.exists:
-                result = target == device.info['enabled']
+                result = str(target).lower() == str(device.info['enabled']).lower()
                 logger.info("element %s enabled: %s", d.serial() , str(result))
                 self.write({
                     "success": True,
@@ -816,8 +816,8 @@ class AssertExistsHandler(BaseHandler):
             # elif origin == 'description':
             #     device = d.device(description=flag, instance = index)
             exists = device.exists
-            print(str(exists).lower() ==  target)
-            result = str(exists).lower() ==  target
+            print(str(exists).lower() == target)
+            result = str(exists).lower() == str(target).lower()
             logger.info("element: %s  is exists: %s, assert exists result: %s", device, str(exists), str(result))
             self.write({
                 "success": True,
